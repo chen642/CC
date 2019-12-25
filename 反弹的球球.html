@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        #box {
+            width:150px;
+            height:150px;
+            border-radius:50%;
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+        
+        @keyframes xuanzhuan {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #box img {
+            width: inherit;
+            height: inherit;
+            border-radius: inherit;
+        
+            animation: xuanzhuan 30s linear infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <img src="./cyy.jpg" alt="">
+    </div>
+
+    <button id="btn">滚</button>
+    
+
+</body>
+<script>
+    var btn = document.getElementById('btn');
+    var box = document.getElementById('box');
+   
+    btn.onclick = function() {
+        // 可视区域的宽高
+        var dw = document.documentElement.clientWidth;
+        var dh = document.documentElement.clientHeight;
+        //console.log(dw , dh);
+        // 横向速度
+        var x = 10;
+        // 纵向速度
+        var y = 10;
+        window.onresize = function()
+        {
+            dw = document.documentElement.clientWidth;
+            dh = document.documentElement.clientHeight;
+            console.log(dw,dh);
+           
+        }
+
+        setInterval(function(){
+
+            // 求出横向临界值
+            var lx = dw - box.offsetWidth;
+            // 判断横向取反
+            if ( box.offsetLeft >= lx || box.offsetLeft < 0) {
+                // 方向取反
+                x = -x;
+            }
+            // 计算横向运动最终的结果
+            var left_result = box.offsetLeft + x;
+            if ( left_result >= lx) {
+                left_result = lx;
+            }
+
+
+            // 求出纵向临界值
+            var ly = dh - box.offsetHeight;
+            // 判断纵向取反
+            if ( box.offsetTop >= ly || box.offsetTop < 0) {
+                y = -y;
+            }
+
+            // 计算纵向运动最终的结果
+            var top_result = box.offsetTop + y;
+
+            if ( top_result >= ly) {
+                top_result = ly;
+            }
+             
+                box.style.left = left_result + 'px';
+                box.style.top = top_result + 'px'; 
+            }, 20);
+          
+    }
+
+</script>
+</html>
